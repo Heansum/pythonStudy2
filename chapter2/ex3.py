@@ -29,13 +29,17 @@ except IndexError:
 
 response = requests.get(URL, param_dic)
 print(response.text)
-'''
-file = open("C:/Users/ITPS/Desktop/response.txt", "w")
-file.write(response.text)
-file.close()
-'''
 
-
+try:
+    file = open("C:/Users/ITPS/Desktop/index.html", "w")
+    file.write(response.text)
+    file.close()
+except UnicodeError:
+    file = open("C:/Users/ITPS/Desktop/index.html", "w", encoding="UTF-8")
+    file.write(response.text)
+    file.close()
+finally:
+    file.close()
 
 
 
