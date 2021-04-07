@@ -1,8 +1,8 @@
-from datetime import datetime
 from selenium import webdriver
 import APP
 from selenium.webdriver import ActionChains
 import time
+from datetime import datetime
 
 driverPath = "C:/Users/ITPS/Downloads/driver/chromedriver.exe"
 URL = "https://play.google.com/store?hl=ko"
@@ -63,73 +63,27 @@ for element in elementList:
     imgPath = element.find_element_by_css_selector(".T75of.QNCnCf")
     imgPath = imgPath.get_property("src")
 
-    star = element.find_element_by_css_selector("div.pf5lIe div")
-    star = star.get_attribute("aria-label")
-    print(star)
+    star = element.find_element_by_css_selector("c-wiz > div > div > div.RZEgze > div > div > div.Z2nl8b > div > div.kCSSQe > div > div")
+    star = star.get_property("aria-label")
     star = star[10:13]
 
-    element.click()
-
-    category = element.find_element_by_css_selector('#fcxH9b > div.WpDbMd > c-wiz.zQTmif.SSPGKf.I3xX3c.drrice > div > div.ZfcPIb > div > div > main > c-wiz:nth-child(1) > c-wiz:nth-child(1) > div > div.D0ZKYe > div > div.sIskre > div > div.ZVWMWc > div:nth-child(1)')
-    category = category.text
-
-    reviewPeople = driver.find_element_by_css_selector('#fcxH9b > div.WpDbMd > c-wiz.zQTmif.SSPGKf.I3xX3c.drrice > div > div.ZfcPIb > div > div > main > div > div.W4P4ne > c-wiz > div.K9wGie > span')
-    reviewPeople = reviewPeople.text
-
-    star5Rate = driver.find_element_by_css_selector('#fcxH9b > div.WpDbMd > c-wiz.zQTmif.SSPGKf.I3xX3c.drrice > div > div.ZfcPIb > div > div > main > div > div.W4P4ne > c-wiz > div.VEF2C > div:nth-child(1) > span.L2o20d.P41RMc')
-    star5Rate = star5Rate.get_attribute("style")
-
-    star4Rate = driver.find_element_by_css_selector('#fcxH9b > div.WpDbMd > c-wiz.zQTmif.SSPGKf.I3xX3c.drrice > div > div.ZfcPIb > div > div > main > div > div.W4P4ne > c-wiz > div.VEF2C > div:nth-child(2)')
-    star4Rate = star4Rate.get_attribute("style")
-
-    star3Rate = driver.find_element_by_css_selector('#fcxH9b > div.WpDbMd > c-wiz.zQTmif.SSPGKf.I3xX3c.drrice > div > div.ZfcPIb > div > div > main > div > div.W4P4ne > c-wiz > div.VEF2C > div:nth-child(3) > span.L2o20d.Sthl9e')
-    star3Rate = star3Rate.get_attribute("style")
-
-    star2Rate = driver.find_element_by_css_selector('#fcxH9b > div.WpDbMd > c-wiz.zQTmif.SSPGKf.I3xX3c.drrice > div > div.ZfcPIb > div > div > main > div > div.W4P4ne > c-wiz > div.VEF2C > div:nth-child(4) > span.L2o20d.rhCabb')
-    star2Rate = star2Rate.get_attribute("style")
-
-    star1Rate = driver.find_element_by_css_selector('')
-    star1Rate = star1Rate.get_attribute("style")
-
-    driver.back()
-
-    appInfo = APP.APPInfo(appName, company, imgPath,  star, category, reviewPeople, star5Rate, star4Rate, star3Rate, star2Rate, star1Rate)
+    appInfo = APP.APPInfo(appName, company, imgPath, star)
     appInfoList.append(appInfo)
 
-
-    time.sleep(3)
-    
-
 today = datetime.now()
-
+# ex) 20210407
 today = today.strftime("%Y%m%d")
 
 with open("C:/Users/ITPS/Desktop/app_rank/"+today+".tsv", "w", encoding="UTF-8") as file:
-    file.write("앱이름\t서비스회사\t앱이미지\t별점\t카테고리\t리뷰작성자의수\t별점5비율\t별점4비율\t별점3비율\t별점2비율\t별점1비율\n")
+    file.write("앱이름\t서비스회사\t앱이미지\t별점\n")
 
     for appInfo in appInfoList:
         appName = appInfo.getAppName()
-        company = appInfo.getCompanyName()
+        company = appInfo.getCompany()
         imgPath = appInfo.getImgPath()
         star = appInfo.getStar()
-        category = appInfo.category
-        reviewPeople = appInfo.reviewPeople
-        star5Rate = appInfo.star5Rate
-        star4Rate = appInfo.star4Rate
-        star3Rate = appInfo.star3Rate
-        star2Rate = appInfo.star2Rate
-        star1Rate = appInfo.star1Rate
 
-        file.write(appName+"\t"+company+"\t"+imgPath+"\t"+star+"\t"+category+"\t"+reviewPeople+"\t"+star5Rate+"\t"+star4Rate+"\t"+star3Rate+"\t"+star2Rate+"\t"+star1Rate+"\n")
-
-for appInfo in appInfoList:
-    print("%s / %s" % (appInfo.getAppName(), appInfo.getCompany()))
+        file.write(appName+"\t"+company+"\t"+imgPath+"\t"+star+"\n")
 
 
-
-
-
-
-
-
-
+driver.close()

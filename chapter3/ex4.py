@@ -48,7 +48,7 @@ for i in range(1, 4) :
     elementList = driver.find_elements_by_css_selector('#fcxH9b > div.WpDbMd > c-wiz:nth-child(5) > div > c-wiz > div > c-wiz > c-wiz > c-wiz > div > div.ZmHEEd > c-wiz')
     # 수집한 순위의 마지막 요소
     time.sleep(1)
-    
+
     lastElement = elementList[-1]
     # 마지막 요소로 스크롤을 이동시켜라
     ActionChains(driver).move_to_element(lastElement).perform()
